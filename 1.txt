@@ -1,469 +1,56 @@
-CeaserCipher 01...................................................................
 
-import java.util.*;
+Nmap__________________________________________________________________
 
-public class CeaserCipher_b {
-    public static void main(String args[]) {
-        Scanner sc = new Scanner (System.in);
+	UBUNTU
 
-        System.out.println("Input the plaintext message: ");
-        String plaintext = sc.nextLine();
-
-        System.out.println("Enter the key value: ");
-        int shift = sc.nextInt();
-
-        String ciphertext = "";
-        char alphabet;
-        for(int i=0; i<plaintext.length(); i++) {
-            alphabet = plaintext.charAt(i);
-            
-            if(alphabet >= 'a' && alphabet <= 'z') {
-                alphabet = (char) (alphabet + shift);
-
-                if(alphabet > 'z') {
-                    alphabet = (char) (alphabet+'a'-'z'-1);
-                }
-                ciphertext = ciphertext + alphabet;
-            }
-            else if(alphabet >= 'A' && alphabet <= 'Z') {
-                alphabet = (char) (alphabet + shift);
-
-                if(alphabet > 'Z') {
-                    alphabet = (char) (alphabet+'A'-'Z'-1);
-                }
-                ciphertext = ciphertext + alphabet;
-            }
-            else {
-                ciphertext = ciphertext + alphabet;
-            }
-        }
-        System.out.println("Ciphertext: " + ciphertext);
-    }
-}
+01. sudo nmap -v "target address"
+02. sudo nmap -sV "target address"
+03. sudo nmap --script ssl-cert "target address"
+05. sudo namp -sL "target address"
+04. sudo nmap --script vuln "target address"
 
 
-CeaserCipher_Decryption ...................................................................
+	KALI - LINUX
 
-import java.util.*;
-public class CeaserCipher_Decryption {
-    public static void main(String args[]) {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Input the the ciphertext message: ");
-        String ciphertext = sc.nextLine();
-
-        System.out.println("Enter the shift value: ");
-        int shift = sc.nextInt();
-        String decryptMessage = "";
-        char alphabet;
-
-        for(int i=0; i<ciphertext.length(); i++) {
-            alphabet = ciphertext.charAt(i);
-
-            if(alphabet >= 'a' && alphabet <= 'z') {
-                alphabet = (char) (alphabet - shift);
-                if(alphabet < 'a') {
-                    alphabet = (char) (alphabet-'a'+'z'+1);
-                }
-                decryptMessage = decryptMessage + alphabet;
-            }
-            else if(alphabet >= 'A' && alphabet <= 'Z') {
-                alphabet = (char) (alphabet - shift);
-                if(alphabet < 'A') {
-                    alphabet = (char) (alphabet-'A'+'Z'+1);
-                }
-                decryptMessage = decryptMessage + alphabet;
-            }
-            else {
-                decryptMessage = decryptMessage + alphabet;
-            }
-        }
-        System.out.println("decrypt message: " + decryptMessage);
-    }
-}
+01. nmap -A "target address"
+02. nmap --script ssl-cert -p 443 "target address"
+03. nmap -sV --script vuln "target address"
 
 
-CeaserCipher 02...................................................................
+SSL____________________________________________________________________
 
-import java.util.*;
+sudo apt update
+sudo apt-get install apache2 apache2-doc apache2-utils openssl
 
-public class CeaserCipher_c {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+localhost
+https://localhost
 
-        System.out.print("Enter tha plaintext: ");
-        String ptext = sc.nextLine();
-        System.out.print("Enter the key value: ");
-        int shift = sc.nextInt();
+sudo mkdir /etc/apache2/ssl
+cd /etc/apache2
+ll
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/apache2/ssl/apachekeynew.key -out /etc/apache2/ssl/apachekeynew.cert
+cd ssl
+ls
+ls -l
+cd //
+cd etc
+sudo a2enmod ssl
 
-        // CeaserCipher_c obj = new CeaserCipher_c();
-        // obj.encrypt(ptext, shift);
+	etc/apache2/sites-avalible
+sudo vim defaulf-ssl.conf
+	use arrow key travel the dock and press i to insetr
+	comment the ssl cetificate file, ceticificate key file 
+	SSLCertificatefile /etc/apache2/ssl/apachekeynew.cert
+	:w
+	:wq
 
-        String enc = encrypt(ptext, shift);
-        String dec = decrypt(enc, shift);
+sudo a2ensite default-ssl.conf
+systemcti relode apache2
 
-        System.out.println("Chiper text: " + enc);
-        System.out.println("Plain text: " + dec);
-        
-
-    }
-    
-    public static String encrypt(String ptext, int shift){
-
-        StringBuilder enc = new StringBuilder();
-        ptext = ptext.toUpperCase();
-
-        for(int i=0; i<ptext.length(); i++){
-
-            char ciphertext = ptext.charAt(i);
-            if(Character.isLetter(ciphertext)){
-                ciphertext = (char)((ciphertext - 'A' + shift + 26) % 26 + 'A');
-            }
-            enc.append(ciphertext);
-
-        }
-        return enc.toString();
-
-    }
-    
-    public static String decrypt(String enc, int shift){
-        StringBuffer dec = new StringBuffer();
-
-        for(int i=0; i<enc.length(); i++){
-
-            char plaintext = enc.charAt(i);
-            if(Character.isLetter(plaintext)){
-                plaintext = (char)((plaintext - 'A' -    shift + 26) % 26 + 'A');
-            }
-            dec.append(plaintext);
-        }
-        return dec.toString();
-
-
-    }
-}
-
-
-Railfencecipher  ...................................................................
-
-import java.util.*;
-
-public class EncryptionandDecryption {
-    int numRails;
-
-    public EncryptionandDecryption(int numRails) {
-        this.numRails = numRails;
-    }
-    String getDecryptedData(String data) {
-        char[] decrypted = new char[data.length()];
-        int n = 0;
-        for (int k=0; k<numRails; k++) {
-            int index = k;
-            boolean down = true;
-            while (index < data.length()) {
-                decrypted[index] = data.charAt(n++);
-                if (k==0 || k==numRails-1) {
-                    index = index + 2 * (numRails -1);
-                }
-                else if (down) {
-                    index = index + 2 * (numRails-k-1);
-                    down = !down;
-                }
-                else {
-                    index = index + 2 * k;
-                    down = !down;
-                }
-            }
-        }
-        return new String(decrypted);
-    }
-    String getEncryptedData(String data) {
-        char[] encrypted = new char[data.length()];
-        int n = 0;
-        for (int k=0; k<numRails; k++) {
-            int index = k;
-            boolean down = true;
-            while (index < data.length()) {
-                encrypted[n++] = data.charAt(index);
-                if (k==0 || k==numRails-1) {
-                    index = index + 2 * (numRails - 1);
-                }
-                else if (down) {
-                    index = index + 2 * (numRails-k-1);
-                    down = !down;
-                }
-                else {
-                    index = index + 2 * k;
-                    down = !down;
-                }
-            }
-        }
-        return new String(encrypted);
-    }
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter the text to encrypt: ");
-        String data = sc.nextLine();
-        System.out.println("Enter the number of rails: ");
-        int numRails = sc.nextInt();
-        EncryptionandDecryption railFenceCipher = new EncryptionandDecryption(numRails);
-        String encrypted = railFenceCipher.getEncryptedData(data);
-        System.out.println("Encrypet Text: "+encrypted);
-        String decrypted = railFenceCipher.getEncryptedData(encrypted);
-        System.out.println("Decrypet Text: "+decrypted);
-    }
-}
+https://localhost
 
 
 
-PlayfairCipher ...................................................................................................
-
-import java.util.Scanner;
-
-public class PlayfairCipher {
-
-    private static final char[] [] MATRIX = new char[5] [5];
-
-    public static void main (String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter the key: ");
-        String key = scanner.nextLine().toUpperCase();
-        System.out.println("Enter the plaintext: ");
-        String plaintext = scanner.nextLine().toUpperCase();
-        key = key.replaceAll("J", "I");
-        plaintext = plaintext.replaceAll("J", "I");
-        String encryptedText = encrypt(plaintext, key);
-        System.out.println("Encrypted Text: " + encryptedText);
-        System.out.println("Reference Table: ");
-        printMatrix();
-    }
-    public static String encrypt(String plaintext, String key) {
-        generateMatrix(key);
-        plaintext = preprocess(plaintext);
-        StringBuilder encryptedText = new StringBuilder();
-        for (int i=0; i<plaintext.length(); i+=2) {
-            char first = plaintext.charAt(i);
-            char second = (i + 1 < plaintext.length()) ? plaintext.charAt(i + 1) : 'X';
-            int[] firstPos = findPosition(first);
-            int[] secondPos = findPosition(second);
-            if (firstPos[0] == secondPos[0]) {
-                encryptedText.append(MATRIX[firstPos[0]][(firstPos[1] + 1) % 5]);
-                encryptedText.append(MATRIX[secondPos[0]][(secondPos[1] + 1) % 5]); 
-            } else if (firstPos[1] == secondPos[0]) {
-                encryptedText.append(MATRIX[(firstPos[0] + 1) % 5][firstPos[1]]);
-                encryptedText.append(MATRIX[(secondPos[0] + 1) % 5][secondPos[1]]); 
-            } else {
-                encryptedText.append(MATRIX[firstPos[0]][secondPos[1]]);
-                encryptedText.append(MATRIX[secondPos[0]][firstPos[1]]);
-            }
-        }
-        return encryptedText.toString();
-    }
-    private static void generateMatrix(String key) {
-        key = key.replaceAll("J", "I");
-        String keyWithoutDuplicates = removeDuplicates(key + "ABCDEFGHIKLMNOPQRSTUVWXYZ");
-        int index = 0;
-        for (int i=0; i<5; i++) {
-            for (int j=0; j<5; j++) {
-                MATRIX[i][j] = keyWithoutDuplicates.charAt(index++);
-            }
-        }
-    }
-    private static void printMatrix() {
-        for (int i=0; i<5; i++) {
-            for (int j=0; j<5; j++) {
-                System.out.print(MATRIX[i][j] + " "); 
-            }
-            System.out.println();
-        }
-    }
-    private static String removeDuplicates(String input) {
-        StringBuilder result = new StringBuilder();
-        for (int i=0; i<input.length(); i++) {
-            char c = input.charAt(i);
-            if (result.indexOf(String.valueOf(c)) == -1) {
-                result.append(c);
-            }  
-        }   
-        return result.toString();
-    }
-    private static String preprocess(String text) {
-        return text.replaceAll("[^a-zA-Z]", "").toUpperCase();
-    }
-    private static int[] findPosition(char c) {
-        int[] position = new int[2];
-        for (int i=0; i<5; i++) {
-            for (int j=0; j<5; j++) {
-                if (MATRIX[i][j] == c) {
-                    position[0] = i;
-                    position[1] = j;
-                    return position;
-                }
-            }
-        }
-        return position;
-    }
-}
 
 
-PlayfairCipher Decryption ...................................................................................................
 
-
-import java.util.Scanner;
-
-public class PlayfairCipherDecryption {
-
-    private static final char[] [] MATRIX = new char[5] [5];
-
-    public static void main (String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter the key: ");
-        String key = scanner.nextLine().toUpperCase();
-        key = key.replaceAll("J", "I");
-        System.out.println("Enter the ciphertext: ");
-        String ciphertext = scanner.nextLine().toUpperCase();
-        String decryptedText = decrypt (ciphertext, key);
-        System.out.println("Decrypted Text: " + decryptedText);
-        System.out.println("Reference Table: ");
-        printMatrix();
-    }
-    public static String decrypt(String ciphertext, String key) {
-        generateMatrix(key);
-        StringBuilder decryptedText = new StringBuilder();
-        
-        // Ensure ciphertext length is even by adding padding if necessary
-        if (ciphertext.length() % 2 != 0) {
-            ciphertext += "X";
-        }
-        
-        for (int i = 0; i < ciphertext.length(); i += 2) {
-            char first = ciphertext.charAt(i);
-            char second = ciphertext.charAt(i + 1);
-            int[] firstPos = findPosition(first);
-            int[] secondPos = findPosition(second);
-            
-            if (firstPos[0] == secondPos[0]) {
-                // Same row
-                decryptedText.append(MATRIX[firstPos[0]][(firstPos[1] + 4) % 5]);
-                decryptedText.append(MATRIX[secondPos[0]][(secondPos[1] + 4) % 5]); 
-            } else if (firstPos[1] == secondPos[1]) {
-                // Same column
-                decryptedText.append(MATRIX[(firstPos[0] + 4) % 5][firstPos[1]]);
-                decryptedText.append(MATRIX[(secondPos[0] + 4) % 5][secondPos[1]]); 
-            } else {
-                // Rectangle
-                decryptedText.append(MATRIX[firstPos[0]][secondPos[1]]);
-                decryptedText.append(MATRIX[secondPos[0]][firstPos[1]]);
-            }
-        }
-        return decryptedText.toString();
-    }
-    
-    private static void generateMatrix(String key) {
-        String keyWithoutDuplicates = removeDuplicates(key.replaceAll("J", "I") + "ABCDEFGHIKLMNOPQRSTUVWXYZ");
-        int index = 0;
-        for (int i=0; i<5; i++) {
-            for (int j=0; j<5; j++) {
-                MATRIX[i][j] = keyWithoutDuplicates.charAt(index++);
-            }
-        }
-    }
-    private static String removeDuplicates(String input) {
-        StringBuilder result = new StringBuilder();
-        for (int i=0; i<input.length(); i++) {
-            char c = input.charAt(i);
-            if (result.indexOf(String.valueOf(c)) == -1) {
-                result.append(c);
-            }  
-        }   
-        return result.toString();
-    }
-    private static void printMatrix() {
-        for (int i=0; i<5; i++) {
-            for (int j=0; j<5; j++) {
-                System.out.print(MATRIX[i][j] + " "); 
-            }
-            System.out.println();
-        }
-    }
-    private static int[] findPosition(char c) {
-        int[] position = new int[2];
-        for (int i=0; i<5; i++) {
-            for (int j=0; j<5; j++) {
-                if (MATRIX[i][j] == c) {
-                    position[0] = i;
-                    position[1] = j;
-                    return position;
-                }
-            }
-        }
-        return position;
-    }
-}
-
-
-KeyStore  ................................................................................................................
-
-
-import java.io.FileOutputStream;
-import java.security.KeyStore;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
-
-public class StoringIntoKeyStore {
-  public static void main(String args[]) throws Exception {
-    KeyStore keyStore = KeyStore.getInstance("JCEKS");
-    keyStore.load(null, null); 
-
-    SecretKey mySecretKey = new SecretKeySpec("myPassword".getBytes(), "DSA");
-    
-    KeyStore.ProtectionParameter protectionParam = new KeyStore.PasswordProtection("changeit".toCharArray());
-    KeyStore.SecretKeyEntry secretKeyEntry = new KeyStore.SecretKeyEntry(mySecretKey);
-    
-    String keystoreFilePath = "Key.jceks"; 
-    
-    keyStore.setEntry("secretKeyAlias", secretKeyEntry, protectionParam);
-    
-    FileOutputStream fos = new FileOutputStream(keystoreFilePath);
-    keyStore.store(fos, "changeit".toCharArray());
-
-    System.out.println("Secret key stored in " + keystoreFilePath);
-  }
-}
-
-
-RetrievingFromKeyStore ................................................................................................................
-
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.security.KeyStore;
-import java.security.KeyStore.ProtectionParameter;
-import java.security.KeyStore.SecretKeyEntry;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
-
-public class RetrievingFromKeyStore {
-    public static void main(String args[]) throws Exception {
-        KeyStore keyStore = KeyStore.getInstance("JCEKS");
-
-        char[] password = "changeit".toCharArray();
-        FileInputStream fis = new FileInputStream("Key.jceks");
-        keyStore.load(fis, password);
-
-        ProtectionParameter protectionParam = new KeyStore.PasswordProtection(password);
-        
-        SecretKey mySecretKey = new SecretKeySpec("myPassword".getBytes(), "DSA");
-        
-        SecretKeyEntry secretKeyEntry = new SecretKeyEntry(mySecretKey);
-        keyStore.setEntry("secretKeyAlias", secretKeyEntry, protectionParam);
-        
-        FileOutputStream fos = new FileOutputStream("Key.jceks");
-        keyStore.store(fos, password);
-        
-        SecretKeyEntry secretKeyEnt = (SecretKeyEntry) keyStore.getEntry("secretKeyAlias", protectionParam);
-        
-        SecretKey mySecretKeyFromStore = secretKeyEnt.getSecretKey();
-        
-        System.out.println("Algorithm used to generate key: " + mySecretKeyFromStore.getAlgorithm());
-        System.out.println("Format used for the key: " + mySecretKeyFromStore.getFormat());   
-    }
-}
